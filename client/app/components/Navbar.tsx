@@ -77,7 +77,7 @@ const Navbar = () => {
     <motion.nav
       initial={{ y: 0, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
+      transition={{ duration: 0, ease: "easeOut" }}
       className={`fixed top-0 left-0 right-0 z-50 h-15 text-[18px] font-Montserrat transition-all duration-500 ${
         isScrolled
           ? 'bg-black border-b border-white'
@@ -86,7 +86,7 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-3">
-          {/* Logo */}
+          {/* Logo - Keep animations here */}
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -112,21 +112,16 @@ const Navbar = () => {
             </motion.span>
           </motion.div>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation - Remove animations */}
           <div className="hidden md:flex items-center space-x-6 text-[20px]">
-            {navItems.map((item, index) => (
-              <motion.a
+            {navItems.map((item) => (
+              <a
                 key={item.name}
                 href={item.href}
                 onClick={(e) => {
                   e.preventDefault();
                   handleNavClick(item.href);
                 }}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
                 className={`relative px-6 py-2 font-medium transition-all duration-300 flex items-center space-x-2 group ${
                   activeSection === item.id
                     ? 'text-orangeCustom'
@@ -137,25 +132,16 @@ const Navbar = () => {
 
                 {/* Active indicator */}
                 {activeSection === item.id && (
-                  <motion.div
-                    layoutId="activeSection"
-                    className="absolute bottom-0 transform w-1/2 h-0.5 bg-white rounded-full"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                  />
+                  <div className="absolute bottom-0 transform w-1/2 h-0.5 bg-white rounded-full" />
                 )}
-              </motion.a>
+              </a>
             ))}
           </div>
 
           {/* Right side - Language selector and mobile menu button */}
           <div className="flex items-center space-x-4">
             {/* Language Selector - Desktop */}
-            <motion.div 
-              className="hidden md:block"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
+            <div className="hidden md:block">
               <IconButton 
                 onClick={handleClick}
                 sx={{ 
@@ -199,12 +185,10 @@ const Navbar = () => {
                   </MenuItem>
                 ))}
               </Menu2>
-            </motion.div>
+            </div>
 
             {/* Mobile Menu Button */}
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+            <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="md:hidden w-10 h-10 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 transition-colors duration-300"
             >
@@ -213,30 +197,20 @@ const Navbar = () => {
               ) : (
                 <Menu className="w-6 h-6 text-white" />
               )}
-            </motion.button>
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu - Remove animations */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="md:hidden bg-black/95 backdrop-blur-xl border-t border-white/20 overflow-hidden"
-          >
+          <div className="md:hidden bg-black/95 backdrop-blur-xl border-t border-white/20 overflow-hidden">
             <div className="px-4 py-4 space-y-3">
-              {navItems.map((item, index) => (
-                <motion.button
+              {navItems.map((item) => (
+                <button
                   key={item.name}
                   onClick={() => handleNavClick(item.href)}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: index * 0.1 }}
-                  whileHover={{ x: 10 }}
                   className={`w-full text-left flex items-center space-x-3 px-4 py-4 rounded-lg font-medium transition-all duration-300 text-[18px] ${
                     activeSection === item.id
                       ? 'bg-orangeCustom/20 text-orangeCustom border-l-4 border-orangeCustom'
@@ -244,16 +218,11 @@ const Navbar = () => {
                   }`}
                 >
                   <span>{item.name}</span>
-                </motion.button>
+                </button>
               ))}
 
               {/* Language Selector - Mobile */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: 0.3 }}
-                className="px-4 py-4"
-              >
+              <div className="px-4 py-4">
                 <button
                   onClick={handleClick}
                   className="w-full text-left flex items-center px-4  py-4 rounded-lg font-medium transition-all duration-300 text-[18px] text-white hover:text-orangeCustom hover:bg-white/10"
@@ -292,34 +261,27 @@ const Navbar = () => {
                     </MenuItem>
                   ))}
                 </Menu2>
-              </motion.div>
+              </div>
 
               {/* Mobile CTA Button */}
-              <motion.button
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.4 }}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+              <button
                 onClick={() => handleNavClick('#scanner')}
                 className="w-full bg-orangeCustom hover:bg-orange-600 text-white px-4 py-4 rounded-lg font-semibold text-[18px] transition-all duration-300 flex items-center justify-center space-x-2 mt-4 shadow-lg shadow-orangeCustom/25"
               >
                 <Camera className="w-5 h-5" />
                 <span>{t('Start Scanning')}</span>
-              </motion.button>
+              </button>
             </div>
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
 
       {/* Scrolling Progress Bar */}
-      <motion.div
-        className="absolute bottom-0 left-0 h-0.5 bg-orangeCustom"
-        initial={{ scaleX: 0 }}
-        animate={{
-          scaleX: isScrolled ? (window.scrollY / (document.body.scrollHeight - window.innerHeight)) : 0
+      <div
+        className="absolute bottom-0 left-0 h-0.5 bg-orangeCustom transition-transform duration-300"
+        style={{
+          transform: `scaleX(${isScrolled ? (window.scrollY / (document.body.scrollHeight - window.innerHeight)) : 0})`
         }}
-        transition={{ duration: 0.3 }}
       />
     </motion.nav>
   );

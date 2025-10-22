@@ -1,49 +1,174 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { useLanguage } from "../context/LanguageContext";
 
 const About = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const isInView = useInView(ref, { once: false, margin: '-100px' });
   const { t } = useLanguage();
+
+  // Animation variants
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+        duration: 0.8
+      }
+    }
+  };
+
+  const itemVariants: Variants = {
+    hidden: { 
+      opacity: 0, 
+      y: 60,
+      scale: 0.9
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        type: "spring",
+        damping: 15,
+        stiffness: 100
+      }
+    }
+  };
+
+  const slideInLeft: Variants = {
+    hidden: { 
+      opacity: 0, 
+      x: -80,
+      rotateY: 10
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+      rotateY: 0,
+      transition: {
+        type: "spring",
+        damping: 20,
+        stiffness: 80
+      }
+    }
+  };
+
+  const slideInRight: Variants = {
+    hidden: { 
+      opacity: 0, 
+      x: 80,
+      rotateY: -10
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+      rotateY: 0,
+      transition: {
+        type: "spring",
+        damping: 20,
+        stiffness: 80
+      }
+    }
+  };
+
+  const featureVariants: Variants = {
+    hidden: { 
+      opacity: 0, 
+      y: 40,
+      scale: 0.8
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        type: "spring",
+        damping: 15,
+        stiffness: 100
+      }
+    }
+  };
+
+  const statVariants: Variants = {
+    hidden: { 
+      opacity: 0, 
+      scale: 0.5,
+      y: 20
+    },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 200,
+        damping: 15
+      }
+    }
+  };
 
   return (
     <section id="about" ref={ref} className="py-20 bg-black font-Montserrat">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-          transition={{ duration: 0.8 }}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={containerVariants}
           className="text-center mb-16"
         >
-          <h2 className="text-5xl md:text-7xl font-bold text-white mb-4">
-            {t('About')} <span className="text-orangeCustom">{t('YedaFinder')}</span>
-          </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <motion.h2
+            variants={itemVariants}
+            className="text-5xl md:text-7xl font-bold text-white mb-4"
+          >
+            {t('About')} <motion.span 
+              variants={itemVariants}
+              className="text-orangeCustom"
+            >
+              {t('YedaFinder')}
+            </motion.span>
+          </motion.h2>
+          <motion.p
+            variants={itemVariants}
+            className="text-xl text-gray-300 max-w-3xl mx-auto"
+          >
             {t("We're revolutionizing the way people discover and order food through the power of artificial intelligence and computer vision.")}
-          </p>
+          </motion.p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            variants={slideInLeft}
           >
-            <h3 className="text-3xl font-bold text-white mb-6">
+            <motion.h3
+              variants={itemVariants}
+              className="text-3xl font-bold text-white mb-6"
+            >
               {t('Our')} <span className="text-orangeCustom">{t('Mission')}</span>
-            </h3>
-            <p className="text-lg text-gray-300 mb-6">
+            </motion.h3>
+            <motion.p
+              variants={itemVariants}
+              className="text-lg text-gray-300 mb-6"
+            >
               {t('We believe that discovering great food should be as simple as taking a picture. Our platform uses advanced AI technology to recognize dishes from photos and connect you with local restaurants that serve them.')}
-            </p>
-            <p className="text-lg text-gray-300 mb-8">
+            </motion.p>
+            <motion.p
+              variants={itemVariants}
+              className="text-lg text-gray-300 mb-8"
+            >
               {t("Whether you're craving something specific or exploring new culinary experiences, YedaFinder makes it easy to satisfy your hunger with just a few taps.")}
-            </p>
+            </motion.p>
             
-            <div className="grid grid-cols-2 gap-6">
+            <motion.div
+              variants={containerVariants}
+              className="grid grid-cols-2 gap-6"
+            >
               {[
                 { number: '10K+', label: t('Dishes Recognized') },
                 { number: '500+', label: t('Restaurant Partners') },
@@ -52,20 +177,30 @@ const About = () => {
               ].map((stat, index) => (
                 <motion.div
                   key={stat.label}
-                  whileHover={{ scale: 1.05 }}
-                  className="text-center p-4 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20"
+                  variants={statVariants}
+                  whileHover={{ 
+                    scale: 1.05,
+                    y: -5,
+                    boxShadow: "0 10px 30px rgba(255, 107, 53, 0.2)"
+                  }}
+                  className="text-center p-4 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 hover:border-orangeCustom/50 transition-all duration-300"
                 >
-                  <div className="text-2xl font-bold text-orangeCustom">{stat.number}</div>
-                  <div className="text-sm text-gray-300">{stat.label}</div>
+                  <motion.div 
+                    className="text-2xl font-bold text-orangeCustom"
+                    whileHover={{ scale: 1.1 }}
+                  >
+                    {stat.number}
+                  </motion.div>
+                  <div className="text-sm text-gray-300 mt-2">{stat.label}</div>
                 </motion.div>
               ))}
-            </div>
+            </motion.div>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            variants={slideInRight}
             className="relative h-96 flex items-center justify-center"
           >
             {/* 3D Animated Pizza Container */}
@@ -188,9 +323,9 @@ const About = () => {
 
         {/* Additional Features Section */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={containerVariants}
           className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8"
         >
           {[
@@ -212,11 +347,21 @@ const About = () => {
           ].map((feature, index) => (
             <motion.div
               key={feature.title}
-              whileHover={{ scale: 1.05, y: -5 }}
-              className="bg-white/5 backdrop-blur-sm p-6 rounded-2xl border border-white/10 text-center"
+              variants={featureVariants}
+              whileHover={{ 
+                scale: 1.05, 
+                y: -8,
+                rotateY: 5,
+                boxShadow: "0 20px 40px rgba(0, 0, 0, 0.3)"
+              }}
+              className="bg-white/5 backdrop-blur-sm p-6 rounded-2xl border border-white/10 text-center hover:border-orangeCustom/30 transition-all duration-300"
             >
               <motion.div
-                whileHover={{ scale: 1.2, rotate: 10 }}
+                whileHover={{ 
+                  scale: 1.2, 
+                  rotate: 10,
+                  transition: { type: "spring", stiffness: 400, damping: 10 }
+                }}
                 className="text-4xl mb-4"
               >
                 {feature.icon}
