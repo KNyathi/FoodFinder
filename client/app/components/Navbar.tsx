@@ -3,11 +3,28 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Camera, Menu, X } from 'lucide-react';
+import { useLanguage, Lang } from "../context/LanguageContext";
+import { Menu as Menu2, MenuItem, IconButton } from "@mui/material";
+import LanguageIcon from "@mui/icons-material/Language";
+import { supportedLanguages } from './Languages';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { userLang, setUserLang, t } = useLanguage();
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const opened = Boolean(anchorEl);
+
+  const handleClick = (event: any) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClosed = (lang: any) => {
+    if (lang) setUserLang(lang);
+    setAnchorEl(null);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -142,6 +159,44 @@ const Navbar = () => {
               <Menu className="w-6 h-6 text-white" />
             )}
           </motion.button>
+        </div>
+
+        <div className="800px:block">
+          <IconButton onClick={handleClick}>
+            <LanguageIcon className="text-black dark:text-white ml-[-12px] md:ml-3" />
+          </IconButton>
+          <Menu2
+            anchorEl={anchorEl}
+            open={opened}
+            onClose={() => handleClosed(null)}
+            sx={{
+              "& .MuiPaper-root": {
+                backgroundColor: "white", // Custom background
+                color: "black",
+                borderRadius: "8px", // Rounded corners
+                minWidth: "150px", // Adjust width
+              },
+            }}
+          >
+            {supportedLanguages.map((lang) => (
+              <MenuItem
+                key={lang.code}
+                onClick={() => handleClosed(lang.code)}
+                selected={userLang === lang.code}
+                sx={{
+                  "&.Mui-selected": {
+                    backgroundColor: "black", // Highlight selected language
+                    color: "white"
+                  },
+                  "&:hover": {
+                    backgroundColor: "#475569", // Hover effect
+                  },
+                }}
+              >
+                {t(lang.name)}
+              </MenuItem>
+            ))}
+          </Menu2>
         </div>
       </div>
 
