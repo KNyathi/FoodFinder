@@ -1,26 +1,239 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 10, 10, 20;
+  --background-end-rgb: 15, 15, 25;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Account for fixed navbar */
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      rgb(var(--background-start-rgb)),
+      rgb(var(--background-end-rgb))
+    );
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar for dark theme */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(var(--background-start-rgb));
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    to bottom,
+    rgb(var(--gradient-start)),
+    rgb(var(--gradient-end))
+  );
+  border-radius: 5px;
+  border: 2px solid rgb(var(--background-start-rgb));
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    to bottom,
+    rgba(var(--gradient-start), 0.8),
+    rgba(var(--gradient-end), 0.8)
+  );
+}
+
+/* Selection colors */
+::selection {
+  background: rgba(var(--gradient-start), 0.3);
+  color: rgb(var(--foreground-rgb));
+}
+
+::-moz-selection {
+  background: rgba(var(--gradient-start), 0.3);
+  color: rgb(var(--foreground-rgb));
+}
+
+/* Smooth color transitions */
+* {
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Custom animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(var(--accent-glow), 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(var(--accent-glow), 0.6);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Utility classes */
+.float-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+.glow-animation {
+  animation: glow 3s ease-in-out infinite;
+}
+
+.slide-up {
+  animation: slideUp 0.8s ease-out;
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(
+    135deg,
+    rgb(var(--gradient-start)),
+    rgb(var(--gradient-end))
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glass morphism effect */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-dark {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Custom focus styles */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid rgb(var(--gradient-start));
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Loading animation */
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Image hover effects */
+.image-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.image-hover:hover {
+  transform: scale(1.05);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Custom gradient backgrounds */
+.bg-gradient-dark {
+  background: linear-gradient(
+    135deg,
+    rgb(var(--background-start-rgb)),
+    rgb(20, 20, 35)
+  );
+}
+
+.bg-gradient-accent {
+  background: linear-gradient(
+    135deg,
+    rgb(var(--gradient-start)),
+    rgb(var(--gradient-end))
+  );
+}
+
+/* Text shadow for better readability */
+.text-glow {
+  text-shadow: 0 0 20px rgba(var(--accent-glow), 0.5);
+}
+
+/* Custom border gradients */
+.border-gradient {
+  border: 2px solid transparent;
+  background: linear-gradient(rgb(var(--background-start-rgb)), rgb(var(--background-start-rgb))) padding-box,
+              linear-gradient(135deg, rgb(var(--gradient-start)), rgb(var(--gradient-end))) border-box;
+}
+
+/* Smooth scrolling for older browsers */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  html {
+    scroll-padding-top: 70px;
+  }
+  
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --gradient-start: 0, 0, 0;
+    --gradient-end: 255, 255, 255;
+  }
 }
