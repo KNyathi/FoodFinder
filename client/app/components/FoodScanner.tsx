@@ -4,11 +4,13 @@ import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { Camera, Upload, Search, X } from 'lucide-react';
+import { useLanguage } from "../context/LanguageContext";
 
 const FoodScanner = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const { t } = useLanguage();
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -36,11 +38,10 @@ const FoodScanner = () => {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Scan Your <span className="text-orangeCustom">Food</span>
+            {t('Scan Your')} <span className="text-orangeCustom">{t('Food')}</span>
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Take a picture or upload an image of any food, and we'll find restaurants 
-            near you that serve it.
+            {t("Take a picture or upload an image of any food, and we'll find restaurants near you that serve it.")}
           </p>
         </motion.div>
 
@@ -73,13 +74,13 @@ const FoodScanner = () => {
                     <Camera className="w-16 h-16 text-orangeCustom mx-auto mb-4 group-hover:text-orange-400 transition-colors" />
                   </motion.div>
                   <h3 className="text-xl font-semibold text-white mb-2">
-                    Upload Food Image
+                    {t('Upload Food Image')}
                   </h3>
                   <p className="text-gray-300 mb-4">
-                    Click to upload or drag and drop
+                    {t('Click to upload or drag and drop')}
                   </p>
                   <p className="text-sm text-gray-400">
-                    PNG, JPG, JPEG up to 10MB
+                    {t('PNG, JPG, JPEG up to 10MB')}
                   </p>
                   <input
                     id="file-upload"
@@ -136,7 +137,7 @@ const FoodScanner = () => {
                       className="bg-orangeCustom text-white px-6 py-3 rounded-full font-medium flex items-center gap-2 hover:bg-orange-600 transition-colors shadow-lg shadow-orangeCustom/25"
                     >
                       <Search size={20} />
-                      Search Restaurants
+                      {t('Search Restaurants')}
                     </motion.button>
                     <motion.button
                       whileHover={{ scale: 1.05 }}
@@ -145,7 +146,7 @@ const FoodScanner = () => {
                       className="border border-white/30 text-white px-6 py-3 rounded-full font-medium hover:border-orangeCustom hover:text-orangeCustom transition-colors"
                     >
                       <X size={20} />
-                      Retake
+                      {t('Retake')}
                     </motion.button>
                   </div>
                 </motion.div>
@@ -163,32 +164,32 @@ const FoodScanner = () => {
             className="space-y-6"
           >
             <h3 className="text-3xl font-bold text-white mb-6">
-              How It <span className="text-orangeCustom">Works</span>
+              {t('How It')} <span className="text-orangeCustom">{t('Works')}</span>
             </h3>
             
             {[
               {
                 step: '1',
-                title: 'Take a Picture',
-                description: 'Snap a photo of any food you want to find',
+                title: t('Take a Picture'),
+                description: t('Snap a photo of any food you want to find'),
                 icon: '📸'
               },
               {
                 step: '2',
-                title: 'AI Recognition',
-                description: 'Our AI identifies the dish and ingredients',
+                title: t('AI Recognition'),
+                description: t('Our AI identifies the dish and ingredients'),
                 icon: '🤖'
               },
               {
                 step: '3',
-                title: 'Find Restaurants',
-                description: 'Discover local places that serve similar dishes',
+                title: t('Find Restaurants'),
+                description: t('Discover local places that serve similar dishes'),
                 icon: '📍'
               },
               {
                 step: '4',
-                title: 'Order & Enjoy',
-                description: 'Place your order and satisfy your cravings',
+                title: t('Order & Enjoy'),
+                description: t('Place your order and satisfy your cravings'),
                 icon: '🍽️'
               },
             ].map((item, index) => (
@@ -246,18 +247,18 @@ const FoodScanner = () => {
         >
           {[
             {
-              title: "Fast Processing",
-              description: "Get results in under 5 seconds",
+              title: t("Fast Processing"),
+              description: t("Get results in under 5 seconds"),
               stat: "< 5s"
             },
             {
-              title: "High Accuracy",
-              description: "95% accurate food recognition",
+              title: t("High Accuracy"),
+              description: t("95% accurate food recognition"),
               stat: "95%"
             },
             {
-              title: "Wide Coverage",
-              description: "Thousands of restaurants worldwide",
+              title: t("Wide Coverage"),
+              description: t("Thousands of restaurants worldwide"),
               stat: "10K+"
             }
           ].map((feature, index) => (

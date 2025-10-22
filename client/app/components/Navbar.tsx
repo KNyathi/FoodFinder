@@ -51,9 +51,9 @@ const Navbar = () => {
   }, []);
 
   const navItems = [
-    { name: 'Home', href: '#home', id: 'home' },
-    { name: 'About Us', href: '#about', id: 'about' },
-    { name: 'Scan', href: '#scanner', id: 'scanner' },
+    { name: t('Home'), href: '#home', id: 'home' },
+    { name: t('About Us'), href: '#about', id: 'about' },
+    { name: t('Scan'), href: '#scanner', id: 'scanner' },
   ];
 
   const handleNavClick = (href: string) => {
@@ -106,8 +106,8 @@ const Navbar = () => {
               className="text-[30px] font-[400] bg-clip-text text-white"
               whileHover={{ scale: 1.05 }}
             >
-              Yeda<span className="font-[700] text-orangeCustom">
-                Finder
+              {t('Yeda')}<span className="font-[700] text-orangeCustom">
+                {t('Finder')}
               </span>
             </motion.span>
           </motion.div>
@@ -258,8 +258,7 @@ const Navbar = () => {
                   onClick={handleClick}
                   className="w-full text-left flex items-center px-4  py-4 rounded-lg font-medium transition-all duration-300 text-[18px] text-white hover:text-orangeCustom hover:bg-white/10"
                 >
-
-                 Language
+                  {t('Language')}
                 </button>
                 <Menu2
                   anchorEl={anchorEl}
@@ -306,7 +305,7 @@ const Navbar = () => {
                 className="w-full bg-orangeCustom hover:bg-orange-600 text-white px-4 py-4 rounded-lg font-semibold text-[18px] transition-all duration-300 flex items-center justify-center space-x-2 mt-4 shadow-lg shadow-orangeCustom/25"
               >
                 <Camera className="w-5 h-5" />
-                <span>Start Scanning</span>
+                <span>{t('Start Scanning')}</span>
               </motion.button>
             </div>
           </motion.div>

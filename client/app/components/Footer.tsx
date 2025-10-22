@@ -2,35 +2,37 @@
 
 import { motion } from 'framer-motion';
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin, Camera } from 'lucide-react';
+import { useLanguage } from "../context/LanguageContext";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const { t } = useLanguage();
 
   const footerSections = [
     {
-      title: 'Product',
+      title: t('Product'),
       links: [
-        { name: 'Food Scanner', href: '#scanner' },
-        { name: 'Restaurants', href: '#restaurants' },
-        { name: 'Mobile App', href: '#app' },
+        { name: t('Food Scanner'), href: '#scanner' },
+        { name: t('Restaurants'), href: '#restaurants' },
+        { name: t('Mobile App'), href: '#app' },
       ],
     },
     {
-      title: 'Company',
+      title: t('Company'),
       links: [
-        { name: 'About Us', href: '#about' },
-        { name: 'Careers', href: '#careers' },
-        { name: 'Press', href: '#press' },
-        { name: 'Contact', href: '#contact' },
+        { name: t('About Us'), href: '#about' },
+        { name: t('Careers'), href: '#careers' },
+        { name: t('Press'), href: '#press' },
+        { name: t('Contact'), href: '#contact' },
       ],
     },
     {
-      title: 'Support',
+      title: t('Support'),
       links: [
-        { name: 'Help Center', href: '#help' },
-        { name: 'Privacy Policy', href: '#privacy' },
-        { name: 'Terms of Service', href: '#terms' },
-        { name: 'FAQ', href: '#faq' },
+        { name: t('Help Center'), href: '#help' },
+        { name: t('Privacy Policy'), href: '#privacy' },
+        { name: t('Terms of Service'), href: '#terms' },
+        { name: t('FAQ'), href: '#faq' },
       ],
     },
   ];
@@ -77,13 +79,12 @@ const Footer = () => {
                 <Camera className="w-5 h-5 text-black" />
               </motion.div>
               <span className="text-2xl font-bold text-white">
-                Yeda<span className="text-orangeCustom">Finder</span>
+                {t('Yeda')}<span className="text-orangeCustom">{t('Finder')}</span>
               </span>
             </div>
             
             <p className="text-gray-300 mb-6 max-w-md">
-              Discover amazing food through your camera. Find local restaurants, 
-              order your favorite dishes, and satisfy your cravings with just a snap.
+              {t('Discover amazing food through your camera. Find local restaurants, order your favorite dishes, and satisfy your cravings with just a snap.')}
             </p>
             
             {/* Contact Info */}
@@ -98,7 +99,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-3 text-gray-300">
                 <MapPin className="w-5 h-5 text-orangeCustom" />
-                <span>123 Food Street, Taste City</span>
+                <span>{t('123 Food Street, Taste City')}</span>
               </div>
             </div>
           </motion.div>
@@ -141,17 +142,17 @@ const Footer = () => {
           <div className="flex flex-col lg:flex-row justify-between items-center">
             <div className="mb-6 lg:mb-0">
               <h3 className="text-xl font-semibold mb-2 text-white">
-                Stay Updated with Food Trends
+                {t('Stay Updated with Food Trends')}
               </h3>
               <p className="text-gray-300">
-                Get the latest food discoveries and restaurant updates
+                {t('Get the latest food discoveries and restaurant updates')}
               </p>
             </div>
             
             <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
               <input
                 type="email"
-                placeholder="Enter your email"
+                placeholder={t('Enter your email')}
                 className="px-4 py-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-orangeCustom focus:ring-1 focus:ring-orangeCustom w-full sm:w-64"
               />
               <motion.button
@@ -159,7 +160,7 @@ const Footer = () => {
                 whileTap={{ scale: 0.95 }}
                 className="bg-orangeCustom text-white px-6 py-3 rounded-lg font-medium hover:bg-orange-600 transition-all duration-300 whitespace-nowrap shadow-lg shadow-orangeCustom/25"
               >
-                Subscribe
+                {t('Subscribe')}
               </motion.button>
             </div>
           </div>
@@ -178,7 +179,7 @@ const Footer = () => {
               className="text-gray-400 mb-4 md:mb-0"
             >
               <p>
-                &copy; {currentYear} YedaFinder. All rights reserved.
+                &copy; {currentYear} {t('YedaFinder. All rights reserved.')}
               </p>
             </motion.div>
 
@@ -215,21 +216,21 @@ const Footer = () => {
                 whileHover={{ color: '#f97316' }}
                 className="text-gray-400 hover:text-orangeCustom transition-colors duration-300"
               >
-                Privacy Policy
+                {t('Privacy Policy')}
               </motion.button>
               <motion.button
                 onClick={() => handleLinkClick('#terms')}
                 whileHover={{ color: '#f97316' }}
                 className="text-gray-400 hover:text-orangeCustom transition-colors duration-300"
               >
-                Terms of Service
+                {t('Terms of Service')}
               </motion.button>
               <motion.button
                 onClick={() => handleLinkClick('#cookies')}
                 whileHover={{ color: '#f97316' }}
                 className="text-gray-400 hover:text-orangeCustom transition-colors duration-300"
               >
-                Cookies
+                {t('Cookies')}
               </motion.button>
             </motion.div>
           </div>
@@ -246,8 +247,8 @@ const Footer = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row justify-between items-center">
             <div className="text-center sm:text-left mb-4 sm:mb-0">
-              <h4 className="text-lg font-semibold mb-2 text-white">Get the YedaFinder App</h4>
-              <p className="text-gray-300">Scan food on the go with our mobile app</p>
+              <h4 className="text-lg font-semibold mb-2 text-white">{t('Get the YedaFinder App')}</h4>
+              <p className="text-gray-300">{t('Scan food on the go with our mobile app')}</p>
             </div>
             <div className="flex space-x-4">
               <motion.button
@@ -259,8 +260,8 @@ const Footer = () => {
                   <span className="text-black font-bold text-xs">A</span>
                 </div>
                 <div className="text-left">
-                  <div className="text-xs text-gray-300">Download on the</div>
-                  <div className="text-sm font-semibold">App Store</div>
+                  <div className="text-xs text-gray-300">{t('Download on the')}</div>
+                  <div className="text-sm font-semibold">{t('App Store')}</div>
                 </div>
               </motion.button>
               
@@ -273,8 +274,8 @@ const Footer = () => {
                   <span className="text-black font-bold text-xs">P</span>
                 </div>
                 <div className="text-left">
-                  <div className="text-xs text-gray-300">Get it on</div>
-                  <div className="text-sm font-semibold">Google Play</div>
+                  <div className="text-xs text-gray-300">{t('Get it on')}</div>
+                  <div className="text-sm font-semibold">{t('Google Play')}</div>
                 </div>
               </motion.button>
             </div>

@@ -3,10 +3,12 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
+import { useLanguage } from "../context/LanguageContext";
 
 const About = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const { t } = useLanguage();
 
   return (
     <section id="about" ref={ref} className="py-20 bg-black font-Montserrat">
@@ -18,11 +20,10 @@ const About = () => {
           className="text-center mb-16"
         >
           <h2 className="text-5xl md:text-7xl font-bold text-white mb-4">
-            About <span className="text-orangeCustom">YedaFinder</span>
+            {t('About')} <span className="text-orangeCustom">{t('YedaFinder')}</span>
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            We're revolutionizing the way people discover and order food through 
-            the power of artificial intelligence and computer vision.
+            {t("We're revolutionizing the way people discover and order food through the power of artificial intelligence and computer vision.")}
           </p>
         </motion.div>
 
@@ -33,24 +34,21 @@ const About = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <h3 className="text-3xl font-bold text-white mb-6">
-              Our <span className="text-orangeCustom">Mission</span>
+              {t('Our')} <span className="text-orangeCustom">{t('Mission')}</span>
             </h3>
             <p className="text-lg text-gray-300 mb-6">
-              We believe that discovering great food should be as simple as taking a picture. 
-              Our platform uses advanced AI technology to recognize dishes from photos and 
-              connect you with local restaurants that serve them.
+              {t('We believe that discovering great food should be as simple as taking a picture. Our platform uses advanced AI technology to recognize dishes from photos and connect you with local restaurants that serve them.')}
             </p>
             <p className="text-lg text-gray-300 mb-8">
-              Whether you're craving something specific or exploring new culinary experiences, 
-              YedaFinder makes it easy to satisfy your hunger with just a few taps.
+              {t("Whether you're craving something specific or exploring new culinary experiences, YedaFinder makes it easy to satisfy your hunger with just a few taps.")}
             </p>
             
             <div className="grid grid-cols-2 gap-6">
               {[
-                { number: '10K+', label: 'Dishes Recognized' },
-                { number: '500+', label: 'Restaurant Partners' },
-                { number: '50K+', label: 'Happy Users' },
-                { number: '95%', label: 'Accuracy Rate' },
+                { number: '10K+', label: t('Dishes Recognized') },
+                { number: '500+', label: t('Restaurant Partners') },
+                { number: '50K+', label: t('Happy Users') },
+                { number: '95%', label: t('Accuracy Rate') },
               ].map((stat, index) => (
                 <motion.div
                   key={stat.label}
@@ -182,8 +180,8 @@ const About = () => {
               transition={{ duration: 0.8, delay: 0.8 }}
               className="absolute bottom-4 left-0 right-0 text-center"
             >
-              <h4 className="text-2xl font-bold text-white mb-2">See Food, Find Food</h4>
-              <p className="text-orange-100">Instant restaurant matching</p>
+              <h4 className="text-2xl font-bold text-white mb-2">{t('See Food, Find Food')}</h4>
+              <p className="text-orange-100">{t('Instant restaurant matching')}</p>
             </motion.div>
           </motion.div>
         </div>
@@ -197,18 +195,18 @@ const About = () => {
         >
           {[
             {
-              title: "AI-Powered Recognition",
-              description: "Advanced machine learning algorithms that identify dishes with 95% accuracy",
+              title: t("AI-Powered Recognition"),
+              description: t("Advanced machine learning algorithms that identify dishes with 95% accuracy"),
               icon: "🤖"
             },
             {
-              title: "Real-Time Matching",
-              description: "Instant connection with local restaurants serving your desired dishes",
+              title: t("Real-Time Matching"),
+              description: t("Instant connection with local restaurants serving your desired dishes"),
               icon: "⚡"
             },
             {
-              title: "Seamless Ordering",
-              description: "Order directly through our platform with just a few taps",
+              title: t("Seamless Ordering"),
+              description: t("Order directly through our platform with just a few taps"),
               icon: "📱"
             }
           ].map((feature, index) => (

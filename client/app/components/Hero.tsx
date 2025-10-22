@@ -2,8 +2,11 @@
 
 import { motion } from 'framer-motion';
 import { Camera, Search, MapPin } from 'lucide-react';
+import { useLanguage } from "../context/LanguageContext";
 
 const Hero = () => {
+  const { t } = useLanguage();
+
   const handleScanClick = () => {
     const scannerSection = document.getElementById('scanner');
     if (scannerSection) {
@@ -28,9 +31,9 @@ const Hero = () => {
           transition={{ duration: 0.8 }}
           className="text-5xl md:text-7xl font-bold text-white mb-6"
         >
-          Discover Food
+          {t('Discover Food')}
           <span className="block text-transparent bg-clip-text bg-orangeCustom">
-            Through Your Lens
+            {t('Through Your Lens')}
           </span>
         </motion.h1>
 
@@ -40,8 +43,7 @@ const Hero = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-xl text-white mb-12 max-w-3xl mx-auto"
         >
-          Take a picture of any food and instantly find restaurants near you that serve it.
-          Order directly through our platform and satisfy your cravings.
+          {t('Take a picture of any food and instantly find restaurants near you that serve it. Order directly through our platform and satisfy your cravings.')}
         </motion.p>
 
         <motion.div
@@ -57,7 +59,7 @@ const Hero = () => {
             className="bg-orangeCustom text-white px-8 py-4 rounded-full font-semibold text-lg flex items-center gap-3 hover:bg-white hover:text-black transition-colors shadow-lg shadow-orangeCustom/25"
           >
             <Camera size={24} />
-            Scan Food Now
+            {t('Scan Food Now')}
           </motion.button>
 
           <motion.button
@@ -67,7 +69,7 @@ const Hero = () => {
             className="border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg flex items-center gap-3 hover:border-orangeCustom hover:text-orangeCustom hover:bg-white transition-colors"
           >
             <Search size={24} />
-            Browse Restaurants
+            {t('Browse Restaurants')}
           </motion.button>
         </motion.div>
 
@@ -79,9 +81,9 @@ const Hero = () => {
           className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto"
         >
           {[
-            { icon: Camera, title: 'Take Photo', desc: 'Snap a picture of any food' },
-            { icon: Search, title: 'AI Search', desc: 'Our AI finds matching dishes' },
-            { icon: MapPin, title: 'Discover Places', desc: 'Find restaurants nearby' },
+            { icon: Camera, title: t('Take Photo'), desc: t('Snap a picture of any food') },
+            { icon: Search, title: t('AI Search'), desc: t('Our AI finds matching dishes') },
+            { icon: MapPin, title: t('Discover Places'), desc: t('Find restaurants nearby') },
           ].map((item, index) => (
             <motion.div
               key={item.title}
