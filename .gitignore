@@ -1,0 +1,106 @@
+# === Python ===
+# Server and ML dependencies
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+.env
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# === Node.js ===
+# Client dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.next/
+out/
+build/
+
+# Next.js
+.next/
+out/
+
+# Production
+build
+
+# Misc
+.DS_Store
+*.pem
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local env files
+.env*.local
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# === ML Specific ===
+# Model files (if large)
+*.h5
+*.pth
+*.pt
+*.pkl
+*.joblib
+
+# Training data
+data/
+datasets/
+*.csv
+*.json
+
+# Jupyter
+.ipynb_checkpoints
+
+# MLFlow
+mlruns/
+
+# === Database ===
+*.db
+*.sqlite3
+
+# === Logs ===
+*.log
+logs/

@@ -3,13 +3,19 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { Camera, Upload, Search, X } from 'lucide-react';
+import { Camera, Upload, Search, X, Loader2 } from 'lucide-react';
 import { useLanguage } from "../context/LanguageContext";
+import { apiService, FoodPrediction, Restaurant } from "../../services/api";
 
 const FoodScanner = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [predictions, setPredictions] = useState<FoodPrediction[]>([]);
+  const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const { t } = useLanguage();
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,14 +24,75 @@ const FoodScanner = () => {
       const reader = new FileReader();
       reader.onload = (e) => {
         setSelectedImage(e.target?.result as string);
+        setUploadedFile(file);
+        setPredictions([]);
+        setRestaurants([]);
+        setError(null);
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleSearchRestaurants = () => {
-    // Open Yandex Maps for restaurant search
-    window.open('https://yandex.com/maps', '_blank');
+  const handleFoodRecognition = async () => {
+    if (!uploadedFile) return;
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const recognitionResult = await apiService.recognizeFood(uploadedFile);
+      setPredictions(recognitionResult.predictions);
+      
+      // Automatically search for restaurants based on top prediction
+      if (recognitionResult.top_prediction) {
+        await handleRestaurantSearch(recognitionResult.top_prediction.food);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t('Recognition failed'));
+      console.error('Food recognition error:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleRestaurantSearch = async (dishName: string) => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      // Get user's location if available
+      let location: { lat: number; lon: number } | undefined;
+      
+      if (navigator.geolocation) {
+        location = await new Promise((resolve) => {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              resolve({
+                lat: position.coords.latitude,
+                lon: position.coords.longitude,
+              });
+            },
+            () => resolve(undefined) // Silently fail if location is blocked
+          );
+        });
+      }
+
+      const restaurantResult = await apiService.searchRestaurants(dishName, location);
+      setRestaurants(restaurantResult.restaurants);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t('Restaurant search failed'));
+      console.error('Restaurant search error:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleRetake = () => {
+    setSelectedImage(null);
+    setUploadedFile(null);
+    setPredictions([]);
+    setRestaurants([]);
+    setError(null);
   };
 
   return (
@@ -128,22 +195,88 @@ const FoodScanner = () => {
                       className="absolute inset-x-0 h-8 bg-gradient-to-b from-orangeCustom/40 to-transparent rounded-full blur-sm"
                     />
                   </div>
-                  
-                  <div className="flex gap-4 justify-center">
-                    <motion.button
-                      onClick={handleSearchRestaurants}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="bg-orangeCustom text-white px-6 py-3 rounded-full font-medium flex items-center gap-2 hover:bg-orange-600 transition-colors shadow-lg shadow-orangeCustom/25"
+
+                  {/* Predictions Display */}
+                  {predictions.length > 0 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="mb-6 p-4 bg-white/5 rounded-xl border border-white/10"
                     >
-                      <Search size={20} />
-                      {t('Search Restaurants')}
-                    </motion.button>
+                      <h4 className="text-white font-semibold mb-3">{t('AI Detection Results')}:</h4>
+                      <div className="space-y-2">
+                        {predictions.map((pred, index) => (
+                          <div key={index} className="flex justify-between items-center text-sm">
+                            <span className="text-gray-300 capitalize">{t(pred.food)}</span>
+                            <span className="text-orangeCustom font-semibold">
+                              {(pred.confidence * 100).toFixed(1)}%
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* Error Display */}
+                  {error && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="mb-4 p-3 bg-red-500/20 border border-red-500/50 rounded-lg text-red-200 text-sm"
+                    >
+                      {error}
+                    </motion.div>
+                  )}
+
+                  <div className="flex gap-4 justify-center">
+                    {!predictions.length ? (
+                      <motion.button
+                        onClick={handleFoodRecognition}
+                        disabled={isLoading}
+                        whileHover={{ scale: isLoading ? 1 : 1.05 }}
+                        whileTap={{ scale: isLoading ? 1 : 0.95 }}
+                        className="bg-orangeCustom text-white px-6 py-3 rounded-full font-medium flex items-center gap-2 hover:bg-orange-600 transition-colors shadow-lg shadow-orangeCustom/25 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {isLoading ? (
+                          <>
+                            <Loader2 className="w-5 h-5 animate-spin" />
+                            {t('Analyzing...')}
+                          </>
+                        ) : (
+                          <>
+                            <Search size={20} />
+                            {t('Analyze Food')}
+                          </>
+                        )}
+                      </motion.button>
+                    ) : (
+                      <motion.button
+                        onClick={() => predictions[0] && handleRestaurantSearch(predictions[0].food)}
+                        disabled={isLoading}
+                        whileHover={{ scale: isLoading ? 1 : 1.05 }}
+                        whileTap={{ scale: isLoading ? 1 : 0.95 }}
+                        className="bg-orangeCustom text-white px-6 py-3 rounded-full font-medium flex items-center gap-2 hover:bg-orange-600 transition-colors shadow-lg shadow-orangeCustom/25 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {isLoading ? (
+                          <>
+                            <Loader2 className="w-5 h-5 animate-spin" />
+                            {t('Searching...')}
+                          </>
+                        ) : (
+                          <>
+                            <Search size={20} />
+                            {t('Find Restaurants')}
+                          </>
+                        )}
+                      </motion.button>
+                    )}
+                    
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      onClick={() => setSelectedImage(null)}
-                      className="border border-white/30 text-white px-6 py-3 rounded-full font-medium hover:border-orangeCustom hover:text-orangeCustom transition-colors"
+                      onClick={handleRetake}
+                      disabled={isLoading}
+                      className="border border-white/30 text-white px-6 py-3 rounded-full font-medium hover:border-orangeCustom hover:text-orangeCustom transition-colors disabled:opacity-50"
                     >
                       <X size={20} />
                       {t('Retake')}
@@ -153,7 +286,42 @@ const FoodScanner = () => {
               )}
             </div>
 
-            
+            {/* Restaurant Results */}
+            {restaurants.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
+              >
+                <h3 className="text-xl font-semibold text-white mb-4">
+                  {t('Restaurants Serving')} {predictions[0]?.food && t(predictions[0].food)}
+                </h3>
+                <div className="space-y-4">
+                  {restaurants.map((restaurant) => (
+                    <motion.div
+                      key={restaurant.id}
+                      whileHover={{ scale: 1.02 }}
+                      className="p-4 bg-white/5 rounded-lg border border-white/10"
+                    >
+                      <div className="flex justify-between items-start mb-2">
+                        <h4 className="text-white font-semibold">{restaurant.name}</h4>
+                        <span className="text-orangeCustom font-semibold">{restaurant.rating} ★</span>
+                      </div>
+                      <p className="text-gray-300 text-sm mb-2">{restaurant.address}</p>
+                      <div className="flex justify-between items-center text-sm">
+                        <span className="text-gray-400">{restaurant.price_range} • {restaurant.distance}</span>
+                        <button 
+                          onClick={() => window.open('https://yandex.com/maps', '_blank')}
+                          className="text-orangeCustom hover:text-orange-400 transition-colors"
+                        >
+                          {t('View Menu')} →
+                        </button>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
           </motion.div>
 
           {/* How It Works Section */}
