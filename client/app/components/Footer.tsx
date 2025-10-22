@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin, Camera } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -11,7 +11,6 @@ const Footer = () => {
       title: 'Product',
       links: [
         { name: 'Food Scanner', href: '#scanner' },
-        { name: 'How It Works', href: '#how-it-works' },
         { name: 'Restaurants', href: '#restaurants' },
         { name: 'Mobile App', href: '#app' },
       ],
@@ -43,8 +42,22 @@ const Footer = () => {
     { icon: Linkedin, href: '#', label: 'LinkedIn' },
   ];
 
+  const handleLinkClick = (href: string) => {
+    if (href.startsWith('#')) {
+      const targetId = href.replace('#', '');
+      const element = document.getElementById(targetId);
+      if (element) {
+        const offsetTop = element.offsetTop - 80;
+        window.scrollTo({
+          top: offsetTop,
+          behavior: 'smooth'
+        });
+      }
+    }
+  };
+
   return (
-    <footer className="bg-gray-900 text-white">
+    <footer className="bg-black text-white font-Montserrat">
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
@@ -55,11 +68,17 @@ const Footer = () => {
             transition={{ duration: 0.6 }}
             className="lg:col-span-2"
           >
-            <div className="flex items-center space-x-2 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">F</span>
-              </div>
-              <span className="text-2xl font-bold">FoodFinder</span>
+            <div className="flex items-center space-x-3 mb-6">
+              <motion.div
+                whileHover={{ rotate: 360 }}
+                transition={{ duration: 0.8 }}
+                className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-lg shadow-orangeCustom"
+              >
+                <Camera className="w-5 h-5 text-black" />
+              </motion.div>
+              <span className="text-2xl font-bold text-white">
+                Yeda<span className="text-orangeCustom">Finder</span>
+              </span>
             </div>
             
             <p className="text-gray-300 mb-6 max-w-md">
@@ -70,15 +89,15 @@ const Footer = () => {
             {/* Contact Info */}
             <div className="space-y-3">
               <div className="flex items-center space-x-3 text-gray-300">
-                <Mail className="w-5 h-5 text-blue-400" />
-                <span>hello@foodfinder.com</span>
+                <Mail className="w-5 h-5 text-orangeCustom" />
+                <span>hello@yedafinder.com</span>
               </div>
               <div className="flex items-center space-x-3 text-gray-300">
-                <Phone className="w-5 h-5 text-blue-400" />
+                <Phone className="w-5 h-5 text-orangeCustom" />
                 <span>+1 (555) 123-4567</span>
               </div>
               <div className="flex items-center space-x-3 text-gray-300">
-                <MapPin className="w-5 h-5 text-blue-400" />
+                <MapPin className="w-5 h-5 text-orangeCustom" />
                 <span>123 Food Street, Taste City</span>
               </div>
             </div>
@@ -98,13 +117,13 @@ const Footer = () => {
               <ul className="space-y-3">
                 {section.links.map((link) => (
                   <li key={link.name}>
-                    <motion.a
-                      href={link.href}
-                      whileHover={{ x: 5, color: '#60A5FA' }}
-                      className="text-gray-300 hover:text-blue-400 transition-colors duration-300 cursor-pointer"
+                    <motion.button
+                      onClick={() => handleLinkClick(link.href)}
+                      whileHover={{ x: 5, color: '#f97316' }}
+                      className="text-gray-300 hover:text-orangeCustom transition-colors duration-300 text-left w-full"
                     >
                       {link.name}
-                    </motion.a>
+                    </motion.button>
                   </li>
                 ))}
               </ul>
@@ -117,11 +136,11 @@ const Footer = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-12 pt-8 border-t border-gray-700"
+          className="mt-12 pt-8 border-t border-gray-800"
         >
           <div className="flex flex-col lg:flex-row justify-between items-center">
             <div className="mb-6 lg:mb-0">
-              <h3 className="text-xl font-semibold mb-2">
+              <h3 className="text-xl font-semibold mb-2 text-white">
                 Stay Updated with Food Trends
               </h3>
               <p className="text-gray-300">
@@ -133,12 +152,12 @@ const Footer = () => {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="px-4 py-3 rounded-lg bg-gray-800 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 w-full sm:w-64"
+                className="px-4 py-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-orangeCustom focus:ring-1 focus:ring-orangeCustom w-full sm:w-64"
               />
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 whitespace-nowrap"
+                className="bg-orangeCustom text-white px-6 py-3 rounded-lg font-medium hover:bg-orange-600 transition-all duration-300 whitespace-nowrap shadow-lg shadow-orangeCustom/25"
               >
                 Subscribe
               </motion.button>
@@ -159,7 +178,7 @@ const Footer = () => {
               className="text-gray-400 mb-4 md:mb-0"
             >
               <p>
-                &copy; {currentYear} FoodFinder. All rights reserved.
+                &copy; {currentYear} YedaFinder. All rights reserved.
               </p>
             </motion.div>
 
@@ -176,7 +195,7 @@ const Footer = () => {
                   href={social.href}
                   whileHover={{ scale: 1.2, y: -2 }}
                   whileTap={{ scale: 0.9 }}
-                  className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center text-gray-300 hover:bg-blue-600 hover:text-white transition-all duration-300"
+                  className="w-10 h-10 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-300 hover:bg-orangeCustom hover:text-white transition-all duration-300 border border-white/20"
                   aria-label={social.label}
                 >
                   <social.icon className="w-5 h-5" />
@@ -191,56 +210,56 @@ const Footer = () => {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="flex space-x-6 mt-4 md:mt-0"
             >
-              <motion.a
-                href="#privacy"
-                whileHover={{ color: '#60A5FA' }}
-                className="text-gray-400 hover:text-blue-400 transition-colors duration-300"
+              <motion.button
+                onClick={() => handleLinkClick('#privacy')}
+                whileHover={{ color: '#f97316' }}
+                className="text-gray-400 hover:text-orangeCustom transition-colors duration-300"
               >
                 Privacy Policy
-              </motion.a>
-              <motion.a
-                href="#terms"
-                whileHover={{ color: '#60A5FA' }}
-                className="text-gray-400 hover:text-blue-400 transition-colors duration-300"
+              </motion.button>
+              <motion.button
+                onClick={() => handleLinkClick('#terms')}
+                whileHover={{ color: '#f97316' }}
+                className="text-gray-400 hover:text-orangeCustom transition-colors duration-300"
               >
                 Terms of Service
-              </motion.a>
-              <motion.a
-                href="#cookies"
-                whileHover={{ color: '#60A5FA' }}
-                className="text-gray-400 hover:text-blue-400 transition-colors duration-300"
+              </motion.button>
+              <motion.button
+                onClick={() => handleLinkClick('#cookies')}
+                whileHover={{ color: '#f97316' }}
+                className="text-gray-400 hover:text-orangeCustom transition-colors duration-300"
               >
                 Cookies
-              </motion.a>
+              </motion.button>
             </motion.div>
           </div>
         </div>
       </div>
 
-      {/* Mobile App Badge (Optional) */}
+      {/* Mobile App Badge */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.6 }}
-        className="bg-gray-800 py-6"
+        className="bg-white/5 backdrop-blur-sm py-6 border-t border-gray-800"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row justify-between items-center">
             <div className="text-center sm:text-left mb-4 sm:mb-0">
-              <h4 className="text-lg font-semibold mb-2">Get the FoodFinder App</h4>
+              <h4 className="text-lg font-semibold mb-2 text-white">Get the YedaFinder App</h4>
               <p className="text-gray-300">Scan food on the go with our mobile app</p>
             </div>
             <div className="flex space-x-4">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-black text-white px-6 py-3 rounded-lg flex items-center space-x-2 hover:bg-gray-900 transition-colors duration-300"
+                className="bg-white/10 backdrop-blur-sm text-white px-6 py-3 rounded-lg flex items-center space-x-2 hover:bg-orangeCustom transition-colors duration-300 border border-white/20"
               >
                 <div className="w-6 h-6 bg-white rounded flex items-center justify-center">
                   <span className="text-black font-bold text-xs">A</span>
                 </div>
                 <div className="text-left">
-                  <div className="text-xs">Download on the</div>
+                  <div className="text-xs text-gray-300">Download on the</div>
                   <div className="text-sm font-semibold">App Store</div>
                 </div>
               </motion.button>
@@ -248,13 +267,13 @@ const Footer = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-black text-white px-6 py-3 rounded-lg flex items-center space-x-2 hover:bg-gray-900 transition-colors duration-300"
+                className="bg-white/10 backdrop-blur-sm text-white px-6 py-3 rounded-lg flex items-center space-x-2 hover:bg-orangeCustom transition-colors duration-300 border border-white/20"
               >
                 <div className="w-6 h-6 bg-white rounded flex items-center justify-center">
                   <span className="text-black font-bold text-xs">P</span>
                 </div>
                 <div className="text-left">
-                  <div className="text-xs">Get it on</div>
+                  <div className="text-xs text-gray-300">Get it on</div>
                   <div className="text-sm font-semibold">Google Play</div>
                 </div>
               </motion.button>
@@ -262,6 +281,35 @@ const Footer = () => {
           </div>
         </div>
       </motion.div>
+
+      {/* Decorative Elements */}
+      <div className="relative">
+        <motion.div
+          animate={{
+            y: [0, -10, 0],
+            opacity: [0.3, 0.7, 0.3]
+          }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="absolute -top-4 left-1/4 w-2 h-2 bg-orangeCustom rounded-full"
+        />
+        <motion.div
+          animate={{
+            y: [0, 10, 0],
+            opacity: [0.5, 1, 0.5]
+          }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1
+          }}
+          className="absolute -top-2 right-1/3 w-1 h-1 bg-orangeCustom rounded-full"
+        />
+      </div>
     </footer>
   );
 };

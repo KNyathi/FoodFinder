@@ -88,7 +88,7 @@ const Navbar = () => {
               className="text-[30px] font-[400] bg-clip-text text-white"
               whileHover={{ scale: 1.05 }}
             >
-              Food<span className="font-[700] text-orangeCustom">
+              Yeda<span className="font-[700] text-orangeCustom">
                 Finder
               </span>
             </motion.span>

@@ -4,14 +4,24 @@ import { motion } from 'framer-motion';
 import { Camera, Search, MapPin } from 'lucide-react';
 
 const Hero = () => {
+  const handleScanClick = () => {
+    const scannerSection = document.getElementById('scanner');
+    if (scannerSection) {
+      const offsetTop = scannerSection.offsetTop - 80;
+      window.scrollTo({
+        top: offsetTop,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const handleBrowseRestaurants = () => {
+    window.open('https://yandex.com/maps', '_blank');
+  };
+
   return (
     <section id="home" className="min-h-screen font-Montserrat flex items-center justify-center bg-black relative overflow-hidden" style={{ paddingTop: '0px' }}>
-
-
-
       <div className="max-w-7xl mx-auto mt-[150px] px-4 sm:px-6 lg:px-8 text-center relative z-10">
-
-
         <motion.h1
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -19,7 +29,7 @@ const Hero = () => {
           className="text-5xl md:text-7xl font-bold text-white mb-6"
         >
           Discover Food
-          <span className="block text-transparent bg-clip-text bg-gradient-to-r from-black to-orangeCustom">
+          <span className="block text-transparent bg-clip-text bg-orangeCustom">
             Through Your Lens
           </span>
         </motion.h1>
@@ -41,18 +51,20 @@ const Hero = () => {
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
         >
           <motion.button
+            onClick={handleScanClick}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-blue-600 text-white px-8 py-4 rounded-full font-semibold text-lg flex items-center gap-3 hover:bg-blue-700 transition-colors shadow-lg"
+            className="bg-orangeCustom text-white px-8 py-4 rounded-full font-semibold text-lg flex items-center gap-3 hover:bg-white hover:text-black transition-colors shadow-lg shadow-orangeCustom/25"
           >
             <Camera size={24} />
             Scan Food Now
           </motion.button>
 
           <motion.button
+            onClick={handleBrowseRestaurants}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-full font-semibold text-lg flex items-center gap-3 hover:border-blue-500 hover:text-blue-600 transition-colors bg-white/50 backdrop-blur-sm"
+            className="border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg flex items-center gap-3 hover:border-orangeCustom hover:text-orangeCustom hover:bg-white transition-colors"
           >
             <Search size={24} />
             Browse Restaurants
@@ -74,11 +86,11 @@ const Hero = () => {
             <motion.div
               key={item.title}
               whileHover={{ scale: 1.05, y: -5 }}
-              className="bg-white/70 backdrop-blur-sm p-6 rounded-2xl shadow-lg border border-white/50"
+              className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl shadow-lg border border-white/20 text-white"
             >
-              <item.icon className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">{item.title}</h3>
-              <p className="text-gray-600">{item.desc}</p>
+              <item.icon className="w-12 h-12 text-orangeCustom mx-auto mb-4" />
+              <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
+              <p className="text-gray-300">{item.desc}</p>
             </motion.div>
           ))}
         </motion.div>
