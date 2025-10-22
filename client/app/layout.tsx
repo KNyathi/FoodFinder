@@ -11,7 +11,7 @@ const montserrat = Montserrat({
 
 
 export const metadata: Metadata = {
-  title: 'FoodFinder - Discover Amazing Food',
+  title: 'YedaFinder - Discover Amazing Food',
   description: 'Find food by taking pictures and discover local restaurants',
 }
 
