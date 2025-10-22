@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, Menu, X } from 'lucide-react';
-import { useLanguage, Lang } from "../context/LanguageContext";
+import { Camera, Languages, Menu, X } from 'lucide-react';
+import { useLanguage } from "../context/LanguageContext";
 import { Menu as Menu2, MenuItem, IconButton } from "@mui/material";
 import LanguageIcon from "@mui/icons-material/Language";
 import { supportedLanguages } from './Languages';
@@ -78,10 +78,11 @@ const Navbar = () => {
       initial={{ y: 0, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className={`fixed top-0 left-0 right-0 z-50 h-15 text-[18px] font-Montserrat transition-all duration-500 ${isScrolled
-        ? 'bg-black border-b border-white'
-        : 'bg-black'
-        }`}
+      className={`fixed top-0 left-0 right-0 z-50 h-15 text-[18px] font-Montserrat transition-all duration-500 ${
+        isScrolled
+          ? 'bg-black border-b border-white'
+          : 'bg-black'
+      }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-3">
@@ -126,10 +127,11 @@ const Navbar = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
-                className={`relative px-6 py-2 font-medium transition-all duration-300 flex items-center space-x-2 group ${activeSection === item.id
-                  ? 'text-orangeCustom'
-                  : 'text-white hover:text-orangeCustom'
-                  }`}
+                className={`relative px-6 py-2 font-medium transition-all duration-300 flex items-center space-x-2 group ${
+                  activeSection === item.id
+                    ? 'text-orangeCustom'
+                    : 'text-white hover:text-orangeCustom'
+                }`}
               >
                 <span>{item.name}</span>
 
@@ -146,57 +148,73 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* Mobile Menu Button */}
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden w-10 h-10 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 transition-colors duration-300"
-          >
-            {isMobileMenuOpen ? (
-              <X className="w-6 h-6 text-white" />
-            ) : (
-              <Menu className="w-6 h-6 text-white" />
-            )}
-          </motion.button>
-        </div>
-
-        <div className="800px:block">
-          <IconButton onClick={handleClick}>
-            <LanguageIcon className="text-black dark:text-white ml-[-12px] md:ml-3" />
-          </IconButton>
-          <Menu2
-            anchorEl={anchorEl}
-            open={opened}
-            onClose={() => handleClosed(null)}
-            sx={{
-              "& .MuiPaper-root": {
-                backgroundColor: "white", // Custom background
-                color: "black",
-                borderRadius: "8px", // Rounded corners
-                minWidth: "150px", // Adjust width
-              },
-            }}
-          >
-            {supportedLanguages.map((lang) => (
-              <MenuItem
-                key={lang.code}
-                onClick={() => handleClosed(lang.code)}
-                selected={userLang === lang.code}
+          {/* Right side - Language selector and mobile menu button */}
+          <div className="flex items-center space-x-4">
+            {/* Language Selector - Desktop */}
+            <motion.div 
+              className="hidden md:block"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <IconButton 
+                onClick={handleClick}
+                sx={{ 
+                  color: 'white',
+                  '&:hover': {
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)'
+                  }
+                }}
+              >
+                <Languages />
+              </IconButton>
+              <Menu2
+                anchorEl={anchorEl}
+                open={opened}
+                onClose={() => handleClosed(null)}
                 sx={{
-                  "&.Mui-selected": {
-                    backgroundColor: "black", // Highlight selected language
-                    color: "white"
-                  },
-                  "&:hover": {
-                    backgroundColor: "#475569", // Hover effect
+                  "& .MuiPaper-root": {
+                    backgroundColor: "white",
+                    color: "black",
+                    borderRadius: "8px",
+                    minWidth: "150px",
                   },
                 }}
               >
-                {t(lang.name)}
-              </MenuItem>
-            ))}
-          </Menu2>
+                {supportedLanguages.map((lang) => (
+                  <MenuItem
+                    key={lang.code}
+                    onClick={() => handleClosed(lang.code)}
+                    selected={userLang === lang.code}
+                    sx={{
+                      "&.Mui-selected": {
+                        backgroundColor: "black",
+                        color: "white"
+                      },
+                      "&:hover": {
+                        backgroundColor: "#475569",
+                      },
+                    }}
+                  >
+                    {t(lang.name)}
+                  </MenuItem>
+                ))}
+              </Menu2>
+            </motion.div>
+
+            {/* Mobile Menu Button */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden w-10 h-10 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 transition-colors duration-300"
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-6 h-6 text-white" />
+              ) : (
+                <Menu className="w-6 h-6 text-white" />
+              )}
+            </motion.button>
+          </div>
         </div>
       </div>
 
@@ -219,14 +237,63 @@ const Navbar = () => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.1 }}
                   whileHover={{ x: 10 }}
-                  className={`w-full text-left flex items-center space-x-3 px-4 py-4 rounded-lg font-medium transition-all duration-300 text-[18px] ${activeSection === item.id
-                    ? 'bg-orangeCustom/20 text-orangeCustom border-l-4 border-orangeCustom'
-                    : 'text-white hover:text-orangeCustom hover:bg-white/10'
-                    }`}
+                  className={`w-full text-left flex items-center space-x-3 px-4 py-4 rounded-lg font-medium transition-all duration-300 text-[18px] ${
+                    activeSection === item.id
+                      ? 'bg-orangeCustom/20 text-orangeCustom border-l-4 border-orangeCustom'
+                      : 'text-white hover:text-orangeCustom hover:bg-white/10'
+                  }`}
                 >
                   <span>{item.name}</span>
                 </motion.button>
               ))}
+
+              {/* Language Selector - Mobile */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, delay: 0.3 }}
+                className="px-4 py-4"
+              >
+                <button
+                  onClick={handleClick}
+                  className="w-full text-left flex items-center px-4  py-4 rounded-lg font-medium transition-all duration-300 text-[18px] text-white hover:text-orangeCustom hover:bg-white/10"
+                >
+
+                 Language
+                </button>
+                <Menu2
+                  anchorEl={anchorEl}
+                  open={opened}
+                  onClose={() => handleClosed(null)}
+                  sx={{
+                    "& .MuiPaper-root": {
+                      backgroundColor: "white",
+                      color: "black",
+                      borderRadius: "8px",
+                      minWidth: "150px",
+                    },
+                  }}
+                >
+                  {supportedLanguages.map((lang) => (
+                    <MenuItem
+                      key={lang.code}
+                      onClick={() => handleClosed(lang.code)}
+                      selected={userLang === lang.code}
+                      sx={{
+                        "&.Mui-selected": {
+                          backgroundColor: "black",
+                          color: "white"
+                        },
+                        "&:hover": {
+                          backgroundColor: "#475569",
+                        },
+                      }}
+                    >
+                      {t(lang.name)}
+                    </MenuItem>
+                  ))}
+                </Menu2>
+              </motion.div>
 
               {/* Mobile CTA Button */}
               <motion.button
