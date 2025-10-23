@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin, Camera } from 'lucide-react';
+import { Mail, Phone, MapPin, Camera } from 'lucide-react';
 import { useLanguage } from "../context/LanguageContext";
 
 const Footer = () => {
@@ -38,10 +38,26 @@ const Footer = () => {
   ];
 
   const socialLinks = [
-    { icon: Facebook, href: '#', label: 'Facebook' },
-    { icon: Twitter, href: '#', label: 'Twitter' },
-    { icon: Instagram, href: '#', label: 'Instagram' },
-    { icon: Linkedin, href: '#', label: 'LinkedIn' },
+    { 
+      icon: () => <img width="20" height="20" src="https://img.icons8.com/ios/50/vk-com.png" alt="vk" />, 
+      href: '#', 
+      label: 'VK' 
+    },
+    { 
+      icon: () => <img width="20" height="20" src="https://img.icons8.com/ios/50/telegram-app.png" alt="telegram" />, 
+      href: '#', 
+      label: 'Telegram' 
+    },
+    { 
+      icon: () => <img width="20" height="20" src="https://img.icons8.com/ios/50/twitterx--v1.png" alt="twitter-x" />, 
+      href: '#', 
+      label: 'X (Twitter)' 
+    },
+    { 
+      icon: () => <img width="20" height="20" src="https://img.icons8.com/ios/50/linkedin.png" alt="linkedin" />, 
+      href: '#', 
+      label: 'LinkedIn' 
+    },
   ];
 
   const handleLinkClick = (href: string) => {
@@ -95,7 +111,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-3 text-gray-300">
                 <Phone className="w-5 h-5 text-orangeCustom" />
-                <span>+1 (555) 123-4567</span>
+                <span>+7 (555) 123-4567</span>
               </div>
               <div className="flex items-center space-x-3 text-gray-300">
                 <MapPin className="w-5 h-5 text-orangeCustom" />
@@ -196,10 +212,10 @@ const Footer = () => {
                   href={social.href}
                   whileHover={{ scale: 1.2, y: -2 }}
                   whileTap={{ scale: 0.9 }}
-                  className="w-10 h-10 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-300 hover:bg-orangeCustom hover:text-white transition-all duration-300 border border-white/20"
+                  className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-black hover:bg-orangeCustom hover:text-white transition-all duration-300 border border-white/20"
                   aria-label={social.label}
                 >
-                  <social.icon className="w-5 h-5" />
+                  <social.icon />
                 </motion.a>
               ))}
             </motion.div>

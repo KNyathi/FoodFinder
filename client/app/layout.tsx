@@ -32,3 +32,5 @@ export default function RootLayout({
     </html>
   )
 }
+
+export const dynamicParams = true; // Allow dynamic routes not in generateStaticParams

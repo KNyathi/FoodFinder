@@ -177,12 +177,7 @@ const About = () => {
               ].map((stat, index) => (
                 <motion.div
                   key={stat.label}
-                  variants={statVariants}
-                  whileHover={{ 
-                    scale: 1.05,
-                    y: -5,
-                    boxShadow: "0 10px 30px rgba(255, 107, 53, 0.2)"
-                  }}
+                 
                   className="text-center p-4 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 hover:border-orangeCustom/50 transition-all duration-300"
                 >
                   <motion.div 
@@ -347,13 +342,7 @@ const About = () => {
           ].map((feature, index) => (
             <motion.div
               key={feature.title}
-              variants={featureVariants}
-              whileHover={{ 
-                scale: 1.05, 
-                y: -8,
-                rotateY: 5,
-                boxShadow: "0 20px 40px rgba(0, 0, 0, 0.3)"
-              }}
+         
               className="bg-white/5 backdrop-blur-sm p-6 rounded-2xl border border-white/10 text-center hover:border-orangeCustom/30 transition-all duration-300"
             >
               <motion.div

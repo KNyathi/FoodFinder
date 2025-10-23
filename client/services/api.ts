@@ -1,14 +1,18 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
 export interface FoodPrediction {
-  food: string;
+  food_name: string;
   confidence: number;
+  class_id: number;
   description: string;
 }
 
 export interface RecognitionResponse {
+  success: boolean;
   predictions: FoodPrediction[];
   top_prediction: FoodPrediction;
+  model: string;
+  message: string;
 }
 
 export interface Restaurant {
@@ -19,6 +23,7 @@ export interface Restaurant {
   price_range: string;
   distance: string;
   menu_link: string;
+  coordinates: any;
 }
 
 export interface RestaurantSearchResponse {
