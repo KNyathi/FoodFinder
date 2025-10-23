@@ -2,6 +2,11 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import engine, Base
 from app.models.restaurant import Restaurant, RestaurantDish
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 print(" Starting FoodFinder API...")
 
@@ -19,10 +24,12 @@ app = FastAPI(
     version="1.0.0"
 )
 
+allowed_origins = os.getenv("ALLOWED_ORIGINS", "").split(",")
+
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
