@@ -56,3 +56,9 @@ Database initialization:
     cd server
     python init_db.py
   ```
+
+Install requirements:
+  ```
+    cd server
+    pip install -r requirements.txt
+  ```
