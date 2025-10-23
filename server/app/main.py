@@ -5,6 +5,7 @@ from app.models.restaurant import Restaurant, RestaurantDish
 import os
 from dotenv import load_dotenv
 
+
 # Load environment variables
 load_dotenv()
 
