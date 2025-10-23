@@ -10,13 +10,20 @@ import os
 from typing import List, Dict
 import uvicorn
 import sys
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 app = FastAPI(title="Food Recognition ML Service")
+
+allowed_origins = os.getenv("ALLOWED_ORIGINS", "").split(",")
+
 
 # CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:8000"],
+    allow_origins=allowed_origins,
     allow_methods=["*"],
     allow_headers=["*"],
 )
