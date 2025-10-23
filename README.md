@@ -24,7 +24,7 @@ activate virtual environment
 
 start server:
  ```
-  
+  uvicorn app.main:app --reload --port 8000
  ```
 
 ML:
