@@ -80,7 +80,6 @@ next-env.d.ts
 # === ML Specific ===
 # Model files (if large)
 *.h5
-*.pth
 *.pt
 *.pkl
 *.joblib
