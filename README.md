@@ -50,3 +50,9 @@ inference:
     python3 inference.py
   ```
 
+
+Database initialization:
+  ```
+    cd server
+    python init_db.py
+  ```
