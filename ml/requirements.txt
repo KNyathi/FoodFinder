@@ -1,3 +1,7 @@
+--only-binary=all
+--index-url https://pypi.org/simple/
+--extra-index-url https://download.pytorch.org/whl/cpu
+
 torch>=2.5.0
 torchvision>=0.20.0
 transformers==4.35.2
@@ -10,4 +14,4 @@ opencv-python==4.8.1.78
 aiofiles==23.2.1
 python-dotenv==1.0.0
 pydantic==2.5.0
-pydantic-core==2.14.1
+pydantic-core==2.14.1; python_version >= "3.7"
